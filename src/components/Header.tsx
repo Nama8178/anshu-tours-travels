@@ -95,7 +95,7 @@ const Header = () => {
                   </Link>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
-                  <Button>Contact Us</Button>
+                  <Button onClick={() => window.open('tel:+918506940925', '_self')}>Contact Us</Button>
                 </div>
               </div>
             </SheetContent>

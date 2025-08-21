@@ -15,6 +15,8 @@ import nainitalImage from "@/assets/destinations/nainital-lake.jpg";
 import ladakhImage from "@/assets/destinations/leh-ladakh-landscape.jpg";
 import haridwarImage from "@/assets/destinations/haridwar-ganga-aarti.jpg";
 
+import hawamahalImage from "@/assets/destinations/hawa-mahal.jpg";
+
 const allDestinations = [
   {
     id: 1,
@@ -142,7 +144,7 @@ const allDestinations = [
     rating: 4.8,
     reviews: 2956,
     highlights: ["Hawa Mahal", "Amber Fort", "City Palace", "Jantar Mantar", "Local Markets"],
-    image: delhiImage,
+    image: hawamahalImage,
     category: "Heritage",
     bestTime: "Oct-Mar",
     difficulty: "Easy"
