@@ -28,7 +28,7 @@ const Header = () => {
             </div>
             <div className="flex items-center gap-1">
               <Mail className="h-3 w-3" />
-              <span>info@anshutours.com</span>
+              <span>anshutoursandtravels03@gmail.com</span>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-1">
@@ -95,7 +95,7 @@ const Header = () => {
                   </Link>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
-                  <Button onClick={() => window.open('tel:+918506940925', '_self')}>Contact Us</Button>
+                  <Button>Contact Us</Button>
                 </div>
               </div>
             </SheetContent>

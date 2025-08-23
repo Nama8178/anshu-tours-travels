@@ -15,8 +15,6 @@ import nainitalImage from "@/assets/destinations/nainital-lake.jpg";
 import ladakhImage from "@/assets/destinations/leh-ladakh-landscape.jpg";
 import haridwarImage from "@/assets/destinations/haridwar-ganga-aarti.jpg";
 
-import hawamahalImage from "@/assets/destinations/hawa-mahal.jpg";
-
 const allDestinations = [
   {
     id: 1,
@@ -144,7 +142,7 @@ const allDestinations = [
     rating: 4.8,
     reviews: 2956,
     highlights: ["Hawa Mahal", "Amber Fort", "City Palace", "Jantar Mantar", "Local Markets"],
-    image: hawamahalImage,
+    image: delhiImage,
     category: "Heritage",
     bestTime: "Oct-Mar",
     difficulty: "Easy"
@@ -365,7 +363,6 @@ const Destinations = () => {
                 <CardFooter className="p-6 pt-0">
                   <div className="flex gap-2 w-full">
                     <Button 
-                      variant="outline" 
                       className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                       onClick={() => window.open(`https://wa.me/918506940925?text=Hi, I'm interested in ${destination.name} tour package. Please share more details.`, '_blank')}
                     >
@@ -373,6 +370,7 @@ const Destinations = () => {
                       WhatsApp
                     </Button>
                     <Button 
+                      variant="outline" 
                       className="flex-1"
                       onClick={() => window.open('tel:+918506940925', '_self')}
                     >

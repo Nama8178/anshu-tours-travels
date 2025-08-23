@@ -22,6 +22,48 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.phone || !formData.subject || !formData.message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Create email content
+    const emailBody = `
+Dear Anshu Tours & Travels,
+
+${formData.message}
+
+Contact Details:
+- Name: ${formData.name}
+- Email: ${formData.email}
+- Phone: ${formData.phone}
+- Inquiry Type: ${formData.inquiryType || 'Not specified'}
+
+Best regards,
+${formData.name}
+    `;
+
+    // Create mailto link
+    const mailtoLink = `mailto:anshutoursandtravels03@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+    
+    // Clear form after submission
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+      inquiryType: ""
+    });
+  };
+
   const contactInfo = [
     {
       icon: Phone,
@@ -33,7 +75,7 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      details: ["info@anshutours.com", "support@anshutours.com"],
+      details: ["anshutoursandtravels03@gmail.com", "support@anshutoursandtravels03@gmail.com"],
       description: "We'll respond within 2 hours",
       color: "text-blue-600"
     },
@@ -97,11 +139,11 @@ const Contact = () => {
             plan the perfect trip across incredible India. Reach out to us anytime!
           </p>
           <div className="flex justify-center gap-4">
-            <Button size="lg" className="flex items-center gap-2">
+            <Button size="lg" className="flex items-center gap-2" onClick={() => window.open('tel:+918506940925')}>
               <Phone className="w-5 h-5" />
               Call Now
             </Button>
-            <Button size="lg" variant="outline" className="flex items-center gap-2">
+            <Button size="lg" variant="outline" className="flex items-center gap-2" onClick={() => window.open('https://wa.me/918506940925?text=Hi! I need help with tour planning.', '_blank')}>
               <MessageCircle className="w-5 h-5" />
               Chat with Us
             </Button>
@@ -142,7 +184,7 @@ const Contact = () => {
             {/* Contact Form */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
+                <CardTitle className="text-2xl flex items-center gap-2 text-black">
                   <Send className="w-6 h-6" />
                   Send us a Message
                 </CardTitle>
@@ -150,7 +192,8 @@ const Contact = () => {
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
               </CardHeader>
-              <CardContent className="space-y-6">
+               <CardContent className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name *</Label>
@@ -221,7 +264,7 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button size="lg" className="w-full">
+                <Button type="submit" size="lg" className="w-full">
                   <Send className="w-4 h-4 mr-2" />
                   Send Message
                 </Button>
@@ -229,6 +272,7 @@ const Contact = () => {
                 <p className="text-sm text-muted-foreground text-center">
                   We typically respond within 2 hours during business hours.
                 </p>
+                </form>
               </CardContent>
             </Card>
 
@@ -335,11 +379,11 @@ const Contact = () => {
             Contact us today and let's make your travel dreams come true.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary">
+            <Button size="lg" variant="secondary" onClick={() => window.open('tel:+918506940925')}>
               <Phone className="w-5 h-5 mr-2" />
               Call +91-8506940925
             </Button>
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" className="text-black border-white hover:bg-primary hover:text-white" onClick={() => window.location.href = "mailto:anshutoursandtravels03@gmail.com"}>
               <Mail className="w-5 h-5 mr-2" />
               Email Us Now
             </Button>
