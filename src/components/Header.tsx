@@ -26,9 +26,9 @@ const Header = () => {
               <Phone className="h-3 w-3" />
               <span>+91-8506940925</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1" >
               <Mail className="h-3 w-3" />
-              <span>anshutoursandtravels03@gmail.com</span>
+              <span style={{fontSize: '12px'}}>anshutoursandtravels03@gmail.com</span>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-1">

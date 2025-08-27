@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Car, Users, MapPin, Calendar as CalendarIcon, Clock, Star, Shield, Fuel } from "lucide-react";
+import { Car, Users, MapPin, Calendar as CalendarIcon, Clock, Star, Shield, Fuel, Phone, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
 
 // Import vehicle images
@@ -80,6 +80,24 @@ const TaxiBookingSection = () => {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [bookingType, setBookingType] = useState<"local" | "outstation">("outstation");
 
+  // --- ADDED ---
+  // State variables for pickup and destination locations
+  const [pickupLocation, setPickupLocation] = useState<string>("");
+  const [destination, setDestination] = useState<string>("");
+
+  // Define your contact details
+  const phoneNumber = "YOUR_PHONE_NUMBER_HERE"; // Replace with your phone number, e.g., "919876543210"
+  const whatsappNumber = "YOUR_WHATSAPP_NUMBER_HERE"; // Replace with your WhatsApp number, e.g., "919876543210"
+
+  // --- ADDED ---
+  // Dynamically generate the WhatsApp message based on user input
+  const whatsappMessage = `Hello, I'd like to book a taxi.
+  Pickup Location: ${pickupLocation}
+  Destination: ${destination}
+  Vehicle: ${vehicles.find(v => v.id === selectedVehicle)?.name || "Not selected"}
+  Pickup Date: ${pickupDate ? format(pickupDate, "PPP") : "Not selected"}
+  Booking Type: ${bookingType}`;
+  
   return (
     <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -113,7 +131,14 @@ const TaxiBookingSection = () => {
                 <Label htmlFor="pickup">Pickup Location</Label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input id="pickup" placeholder="Enter pickup location" className="pl-10" />
+                  {/* --- UPDATED --- */}
+                  <Input 
+                    id="pickup" 
+                    placeholder="Enter pickup location" 
+                    className="pl-10" 
+                    value={pickupLocation}
+                    onChange={(e) => setPickupLocation(e.target.value)}
+                  />
                 </div>
               </div>
               
@@ -121,7 +146,14 @@ const TaxiBookingSection = () => {
                 <Label htmlFor="destination">Destination</Label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input id="destination" placeholder="Enter destination" className="pl-10" />
+                  {/* --- UPDATED --- */}
+                  <Input 
+                    id="destination" 
+                    placeholder="Enter destination" 
+                    className="pl-10" 
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -258,10 +290,19 @@ const TaxiBookingSection = () => {
                     Selected: {vehicles.find(v => v.id === selectedVehicle)?.name}
                   </span>
                 </div>
-                <Button size="lg" className="w-full">
-                  Proceed to Book
-                </Button>
-                <p className="text-xs text-muted-foreground mt-2">
+                <div className="flex flex-col gap-4">
+                  <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Button size="lg" className="w-full bg-green-500 hover:bg-green-600 text-white">
+                      <MessageCircle className="mr-2 h-5 w-5" /> Book on WhatsApp
+                    </Button>
+                  </a>
+                  <a href={`tel:${phoneNumber}`} className="w-full">
+                    <Button size="lg" variant="outline" className="w-full border-primary text-primary">
+                      <Phone className="mr-2 h-5 w-5" /> Call to Book
+                    </Button>
+                  </a>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">
                   Free cancellation up to 2 hours before pickup
                 </p>
               </CardContent>
