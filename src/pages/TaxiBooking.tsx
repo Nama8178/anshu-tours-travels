@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Car, Users, MapPin, Calendar as CalendarIcon, Clock, Star, Shield, Fuel, CheckCircle, Phone, Mail } from "lucide-react";
+import { Car, Users, MapPin, Calendar as CalendarIcon, Clock, Star, Shield, Fuel, CheckCircle, Phone, Mail, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
 import Header from "@/components/Header";
 
@@ -109,11 +109,29 @@ const TaxiBooking = () => {
     specialRequests: ""
   });
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field, value) => {
     setBookingData(prev => ({ ...prev, [field]: value }));
   };
 
   const selectedVehicleData = vehicles.find(v => v.id === selectedVehicle);
+
+  const phoneNumber = "918506940925";
+  const whatsappNumber = "918506940925";
+
+  const whatsappMessage = `Hello, I would like to book a taxi.
+  *Vehicle:* ${selectedVehicleData?.name}
+  *Service Type:* ${bookingType}
+  *Pickup Location:* ${bookingData.pickup}
+  *Destination:* ${bookingData.destination}
+  *Pickup Date:* ${pickupDate ? format(pickupDate, "PPP") : "Not provided"}
+  *Pickup Time:* ${bookingData.pickupTime || "Not provided"}
+  *Number of Passengers:* ${bookingData.passengers}
+  *Special Requests:* ${bookingData.specialRequests || "None"}
+  *Customer Name:* ${bookingData.name}
+  *Phone:* ${bookingData.phone}
+  *Email:* ${bookingData.email}`;
+
+  const isFormValid = bookingData.name && bookingData.phone && bookingData.email && bookingData.pickup;
 
   return (
     <div className="min-h-screen">
@@ -129,7 +147,7 @@ const TaxiBooking = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Choose from our fleet of well-maintained vehicles with professional drivers. 
+            Choose from our fleet of well-maintained vehicles with professional drivers.
             Safe, comfortable, and affordable transportation for all your travel needs.
           </p>
           
@@ -167,7 +185,7 @@ const TaxiBooking = () => {
                 <MapPin className="w-4 h-4 mr-2" />
                 Booking Details
               </TabsTrigger>
-              <TabsTrigger value="confirmation" disabled={!selectedVehicle || !bookingData.name}>
+              <TabsTrigger value="confirmation" disabled={!isFormValid || !selectedVehicle}>
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Confirmation
               </TabsTrigger>
@@ -182,7 +200,7 @@ const TaxiBooking = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-3 gap-4">
-                    <Button 
+                    <Button
                       variant={bookingType === "local" ? "default" : "outline"}
                       onClick={() => setBookingType("local")}
                       className="h-20 flex-col gap-2"
@@ -193,7 +211,7 @@ const TaxiBooking = () => {
                         <div className="text-xs opacity-70">Within City</div>
                       </div>
                     </Button>
-                    <Button 
+                    <Button
                       variant={bookingType === "outstation" ? "default" : "outline"}
                       onClick={() => setBookingType("outstation")}
                       className="h-20 flex-col gap-2"
@@ -204,7 +222,7 @@ const TaxiBooking = () => {
                         <div className="text-xs opacity-70">Outside City</div>
                       </div>
                     </Button>
-                    <Button 
+                    <Button
                       variant={bookingType === "hourly" ? "default" : "outline"}
                       onClick={() => setBookingType("hourly")}
                       className="h-20 flex-col gap-2"
@@ -222,8 +240,8 @@ const TaxiBooking = () => {
               {/* Vehicle Selection */}
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {vehicles.map((vehicle) => (
-                  <Card 
-                    key={vehicle.id} 
+                  <Card
+                    key={vehicle.id}
                     className={`group cursor-pointer transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 ${
                       selectedVehicle === vehicle.id ? 'ring-2 ring-primary shadow-lg' : ''
                     }`}
@@ -231,8 +249,8 @@ const TaxiBooking = () => {
                   >
                     <CardHeader className="relative p-0">
                       <div className="relative h-48 overflow-hidden rounded-t-lg">
-                        <img 
-                          src={vehicle.image} 
+                        <img
+                          src={vehicle.image}
                           alt={vehicle.name}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
@@ -320,8 +338,8 @@ const TaxiBooking = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name *</Label>
-                        <Input 
-                          id="name" 
+                        <Input
+                          id="name"
                           placeholder="Enter your full name"
                           value={bookingData.name}
                           onChange={(e) => handleInputChange("name", e.target.value)}
@@ -329,8 +347,8 @@ const TaxiBooking = () => {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number *</Label>
-                        <Input 
-                          id="phone" 
+                        <Input
+                          id="phone"
                           placeholder="+91 98765 43210"
                           value={bookingData.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
@@ -340,8 +358,8 @@ const TaxiBooking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address *</Label>
-                      <Input 
-                        id="email" 
+                      <Input
+                        id="email"
                         type="email"
                         placeholder="your@email.com"
                         value={bookingData.email}
@@ -354,9 +372,9 @@ const TaxiBooking = () => {
                         <Label htmlFor="pickup">Pickup Location *</Label>
                         <div className="relative">
                           <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input 
-                            id="pickup" 
-                            placeholder="Enter pickup location" 
+                          <Input
+                            id="pickup"
+                            placeholder="Enter pickup location"
                             className="pl-10"
                             value={bookingData.pickup}
                             onChange={(e) => handleInputChange("pickup", e.target.value)}
@@ -368,9 +386,9 @@ const TaxiBooking = () => {
                         <Label htmlFor="destination">Destination *</Label>
                         <div className="relative">
                           <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input 
-                            id="destination" 
-                            placeholder="Enter destination" 
+                          <Input
+                            id="destination"
+                            placeholder="Enter destination"
                             className="pl-10"
                             value={bookingData.destination}
                             onChange={(e) => handleInputChange("destination", e.target.value)}
@@ -428,9 +446,9 @@ const TaxiBooking = () => {
                         <Label htmlFor="pickupTime">Pickup Time *</Label>
                         <div className="relative">
                           <Clock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input 
-                            id="pickupTime" 
-                            type="time" 
+                          <Input
+                            id="pickupTime"
+                            type="time"
                             className="pl-10"
                             value={bookingData.pickupTime}
                             onChange={(e) => handleInputChange("pickupTime", e.target.value)}
@@ -455,7 +473,7 @@ const TaxiBooking = () => {
 
                     <div className="space-y-2">
                       <Label htmlFor="requests">Special Requests</Label>
-                      <Textarea 
+                      <Textarea
                         id="requests"
                         placeholder="Any special requirements or requests..."
                         className="resize-none"
@@ -476,8 +494,8 @@ const TaxiBooking = () => {
                     {selectedVehicleData && (
                       <>
                         <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-                          <img 
-                            src={selectedVehicleData.image} 
+                          <img
+                            src={selectedVehicleData.image}
                             alt={selectedVehicleData.name}
                             className="w-16 h-16 object-cover rounded-lg"
                           />
@@ -520,8 +538,8 @@ const TaxiBooking = () => {
                           <div className="flex justify-between text-sm">
                             <span>Base Rate ({bookingType}):</span>
                             <span>
-                              ₹{bookingType === "hourly" ? selectedVehicleData.pricePerHour + "/hour" : 
-                                bookingType === "local" ? selectedVehicleData.pricePerDay + "/day" : 
+                              ₹{bookingType === "hourly" ? selectedVehicleData.pricePerHour + "/hour" :
+                                bookingType === "local" ? selectedVehicleData.pricePerDay + "/day" :
                                 selectedVehicleData.pricePerKm + "/km"}
                             </span>
                           </div>
@@ -555,10 +573,10 @@ const TaxiBooking = () => {
                 <Button variant="outline" onClick={() => setActiveTab("select-vehicle")}>
                   Back to Vehicles
                 </Button>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   onClick={() => setActiveTab("confirmation")}
-                  disabled={!bookingData.name || !bookingData.phone || !bookingData.email || !bookingData.pickup}
+                  disabled={!isFormValid}
                 >
                   Review Booking
                 </Button>
@@ -612,19 +630,22 @@ const TaxiBooking = () => {
                     </p>
                     
                     <div className="flex justify-center gap-4">
-                      <Button variant="outline" className="flex items-center gap-2">
-                        <Phone className="w-4 h-4" />
-                        Call Support
-                      </Button>
-                      <Button variant="outline" className="flex items-center gap-2">
-                        <Mail className="w-4 h-4" />
-                        Email Support
-                      </Button>
+                      {/* WhatsApp Link Button */}
+                      <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener noreferrer">
+                        <Button className="flex items-center gap-2 bg-green-500 hover:bg-green-600">
+                          <MessageCircle className="w-4 h-4" />
+                          Send on WhatsApp
+                        </Button>
+                      </a>
+                      
+                      {/* Call Link Button */}
+                      <a href={`tel:${phoneNumber}`}>
+                        <Button variant="outline" className="flex items-center gap-2">
+                          <Phone className="w-4 h-4" />
+                          Call Support
+                        </Button>
+                      </a>
                     </div>
-
-                    <Button size="lg" className="w-full md:w-auto">
-                      Book Another Ride
-                    </Button>
                   </div>
                 </CardContent>
               </Card>

@@ -396,4 +396,4 @@ const Destinations = () => {
   );
 };
 
-export default Destinations;
+export default Destinations;  

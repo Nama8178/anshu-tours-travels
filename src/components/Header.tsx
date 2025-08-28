@@ -89,7 +89,7 @@ const Header = () => {
           </NavigationMenu>
 
           <div className="hidden md:flex items-center space-x-2">
-            <Button size="sm">Contact Us</Button>
+            <Button size="sm" onClick={() => window.open('tel:+918506940925')}>Contact Us</Button>
           </div>
 
           {/* Mobile Navigation */}
@@ -112,7 +112,7 @@ const Header = () => {
                   </Link>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t">
-                  <Button>Contact Us</Button>
+                  <Button onClick={() => window.open('tel:+918506940925')}>Contact Us</Button>
                 </div>
               </div>
             </SheetContent>

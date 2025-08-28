@@ -383,7 +383,7 @@ ${formData.name}
               <Phone className="w-5 h-5 mr-2" />
               Call +91-8506940925
             </Button>
-            <Button size="lg" variant="outline" className="text-black border-white hover:bg-primary hover:text-white" onClick={() => window.location.href = "mailto:anshutoursandtravels03@gmail.com"}>
+            <Button size="lg" variant="outline" className="text-black border-none hover:bg-primary hover:text-white" onClick={() => window.location.href = "mailto:anshutoursandtravels03@gmail.com"}>
               <Mail className="w-5 h-5 mr-2" />
               Email Us Now
             </Button>
