@@ -80,24 +80,49 @@ const TaxiBookingSection = () => {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [bookingType, setBookingType] = useState<"local" | "outstation">("outstation");
 
-  // --- ADDED ---
-  // State variables for pickup and destination locations
   const [pickupLocation, setPickupLocation] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
 
-  // Define your contact details
-  const phoneNumber = "YOUR_PHONE_NUMBER_HERE"; // Replace with your phone number, e.g., "919876543210"
-  const whatsappNumber = "YOUR_WHATSAPP_NUMBER_HERE"; // Replace with your WhatsApp number, e.g., "919876543210"
+  const phoneNumber = "918506940925";
+  const whatsappNumber = "918506940925";
 
-  // --- ADDED ---
-  // Dynamically generate the WhatsApp message based on user input
   const whatsappMessage = `Hello, I'd like to book a taxi.
   Pickup Location: ${pickupLocation}
   Destination: ${destination}
   Vehicle: ${vehicles.find(v => v.id === selectedVehicle)?.name || "Not selected"}
   Pickup Date: ${pickupDate ? format(pickupDate, "PPP") : "Not selected"}
   Booking Type: ${bookingType}`;
-  
+
+  // Function to get the user's current location
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setPickupLocation(`${lat}, ${lng}`);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setPickupLocation("Unable to retrieve location");
+        }
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+      setPickupLocation("Geolocation not supported");
+    }
+  };
+
+  // Function to open the map with the current locations
+  const openMap = () => {
+    if (pickupLocation && destination) {
+      const mapLink = `https://www.google.com/maps/dir/${encodeURIComponent(pickupLocation)}/${encodeURIComponent(destination)}`;
+      window.open(mapLink, '_blank');
+    } else {
+      alert("Please enter both a pickup and a destination location.");
+    }
+  };
+
   return (
     <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4">
@@ -112,7 +137,7 @@ const TaxiBookingSection = () => {
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Choose from our fleet of well-maintained vehicles with professional drivers. 
+            Choose from our fleet of well-maintained vehicles with professional drivers.
             Safe, comfortable, and affordable transportation for all your travel needs.
           </p>
         </div>
@@ -130,27 +155,29 @@ const TaxiBookingSection = () => {
               <div className="space-y-2">
                 <Label htmlFor="pickup">Pickup Location</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  {/* --- UPDATED --- */}
-                  <Input 
-                    id="pickup" 
-                    placeholder="Enter pickup location" 
-                    className="pl-10" 
+                  <a href="#" onClick={(e) => { e.preventDefault(); getCurrentLocation(); }} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground cursor-pointer">
+                    <MapPin className="h-4 w-4" />
+                  </a>
+                  <Input
+                    id="pickup"
+                    placeholder="Enter pickup location"
+                    className="pl-10"
                     value={pickupLocation}
                     onChange={(e) => setPickupLocation(e.target.value)}
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="destination">Destination</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  {/* --- UPDATED --- */}
-                  <Input 
-                    id="destination" 
-                    placeholder="Enter destination" 
-                    className="pl-10" 
+                  <a href="#" onClick={(e) => { e.preventDefault(); openMap(); }} className="absolute left-3 top-3 h-4 w-4 text-muted-foreground cursor-pointer">
+                    <MapPin className="h-4 w-4" />
+                  </a>
+                  <Input
+                    id="destination"
+                    placeholder="Enter destination"
+                    className="pl-10"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                   />
@@ -187,14 +214,14 @@ const TaxiBookingSection = () => {
             </div>
 
             <div className="flex gap-4 mb-6">
-              <Button 
+              <Button
                 variant={bookingType === "local" ? "default" : "outline"}
                 onClick={() => setBookingType("local")}
                 className="flex-1"
               >
                 Local (Within City)
               </Button>
-              <Button 
+              <Button
                 variant={bookingType === "outstation" ? "default" : "outline"}
                 onClick={() => setBookingType("outstation")}
                 className="flex-1"
@@ -208,8 +235,8 @@ const TaxiBookingSection = () => {
         {/* Vehicle Selection */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {vehicles.map((vehicle) => (
-            <Card 
-              key={vehicle.id} 
+            <Card
+              key={vehicle.id}
               className={`group cursor-pointer transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 ${
                 selectedVehicle === vehicle.id ? 'ring-2 ring-primary shadow-lg' : ''
               } ${vehicle.popular ? 'bg-gradient-to-br from-primary/5 to-secondary/5' : 'bg-gradient-to-br from-background to-muted/30'}`}
@@ -217,8 +244,8 @@ const TaxiBookingSection = () => {
             >
               <CardHeader className="relative pb-2">
                 <div className="relative h-40 mb-4 rounded-lg overflow-hidden">
-                  <img 
-                    src={vehicle.image} 
+                  <img
+                    src={vehicle.image}
                     alt={vehicle.name}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
@@ -291,11 +318,13 @@ const TaxiBookingSection = () => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-4">
+                  {/* WhatsApp Link Button */}
                   <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} target="_blank" rel="noopener noreferrer" className="w-full">
                     <Button size="lg" className="w-full bg-green-500 hover:bg-green-600 text-white">
                       <MessageCircle className="mr-2 h-5 w-5" /> Book on WhatsApp
                     </Button>
                   </a>
+                  {/* Call Link Button */}
                   <a href={`tel:${phoneNumber}`} className="w-full">
                     <Button size="lg" variant="outline" className="w-full border-primary text-primary">
                       <Phone className="mr-2 h-5 w-5" /> Call to Book
