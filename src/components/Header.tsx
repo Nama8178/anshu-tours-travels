@@ -1,11 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+// Other imports you already have...
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, MapPin, Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query);
+    setMatches(mediaQuery.matches);
+
+    const handler = (event) => setMatches(event.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [query]);
+
+  return matches;
+};
+
 const Header = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -28,7 +45,7 @@ const Header = () => {
             </div>
             <div className="flex items-center gap-1" >
               <Mail className="h-3 w-3" />
-              <span style={{fontSize: '12px'}}>anshutoursandtravels03@gmail.com</span>
+              <span style={{ fontSize: isMobile ? "10px" : "12px" }}>anshutoursandtravels03@gmail.com</span>
             </div>
           </div>
           <div className="hidden md:flex items-center gap-1">
