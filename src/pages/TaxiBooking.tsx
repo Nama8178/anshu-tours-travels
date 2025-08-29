@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Car, Users, MapPin, Calendar as CalendarIcon, Clock, Star, Shield, Fuel, CheckCircle, Phone, Mail, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // Import vehicle images
 import sedanImage from "@/assets/vehicles/sedan-4plus1.jpg";
@@ -653,6 +654,7 @@ const TaxiBooking = () => {
           </Tabs>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

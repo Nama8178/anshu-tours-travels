@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, MapPin, Clock, Users, Search, Filter, Phone, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // Import destination images
 import agraImage from "@/assets/destinations/agra-taj-mahal.jpg";
@@ -14,6 +15,9 @@ import himachalImage from "@/assets/destinations/himachal-mountains.jpg";
 import nainitalImage from "@/assets/destinations/nainital-lake.jpg";
 import ladakhImage from "@/assets/destinations/leh-ladakh-landscape.jpg";
 import haridwarImage from "@/assets/destinations/haridwar-ganga-aarti.jpg";
+import jaipurImage from "@/assets/destinations/jaipur-hawa-mahal.jpg";
+import kashmirImage from "@/assets/destinations/kashmir-dal-lake.jpg";
+import varanasiImage from "@/assets/destinations/varanasi-ghats.jpg";
 
 const allDestinations = [
   {
@@ -134,7 +138,7 @@ const allDestinations = [
     id: 7,
     name: "Jaipur",
     state: "Rajasthan",
-    region: "North India", 
+    region: "North India",
     description: "The Pink City showcasing royal palaces, magnificent forts, colorful bazaars, and rich Rajasthani culture.",
     longDescription: "Jaipur, the capital of Rajasthan, is famous for its pink-hued buildings, majestic palaces, and vibrant culture. Explore the iconic Hawa Mahal, Amber Fort, City Palace, and shop for handicrafts in colorful bazaars. Experience royal hospitality and authentic Rajasthani cuisine.",
     duration: "3-4 Days",
@@ -142,7 +146,7 @@ const allDestinations = [
     rating: 4.8,
     reviews: 2956,
     highlights: ["Hawa Mahal", "Amber Fort", "City Palace", "Jantar Mantar", "Local Markets"],
-    image: delhiImage,
+    image: jaipurImage,
     category: "Heritage",
     bestTime: "Oct-Mar",
     difficulty: "Easy"
@@ -150,16 +154,16 @@ const allDestinations = [
   {
     id: 8,
     name: "Kashmir",
-    state: "Jammu & Kashmir", 
+    state: "Jammu & Kashmir",
     region: "North India",
     description: "Paradise on Earth with Dal Lake, houseboats, Mughal gardens, and snow-capped mountains.",
     longDescription: "Kashmir, often called 'Paradise on Earth', mesmerizes visitors with its pristine beauty. Stay in traditional houseboats on Dal Lake, stroll through Mughal gardens, enjoy shikara rides, and experience the warm hospitality of Kashmiri people amidst breathtaking Himalayan landscapes.",
     duration: "5-7 Days",
-    groupSize: "2-10 People", 
+    groupSize: "2-10 People",
     rating: 4.8,
     reviews: 1876,
     highlights: ["Dal Lake", "Houseboats", "Mughal Gardens", "Gulmarg", "Pahalgam"],
-    image: ladakhImage,
+    image: kashmirImage,
     category: "Hill Station",
     bestTime: "Apr-Oct",
     difficulty: "Easy"
@@ -168,7 +172,7 @@ const allDestinations = [
     id: 9,
     name: "Varanasi",
     state: "Uttar Pradesh",
-    region: "North India", 
+    region: "North India",
     description: "The spiritual capital of India with ancient ghats, temples, and the sacred Ganges River.",
     longDescription: "Varanasi, one of the world's oldest continuously inhabited cities, is the spiritual heart of India. Witness mesmerizing Ganga Aarti ceremonies, explore ancient temples, take boat rides on the sacred Ganges, and experience the profound spirituality that permeates this holy city.",
     duration: "2-3 Days",
@@ -176,8 +180,8 @@ const allDestinations = [
     rating: 4.6,
     reviews: 2156,
     highlights: ["Ganga Aarti", "Ancient Temples", "Boat Rides", "Sarnath", "Silk Weaving"],
-    image: haridwarImage,
-    category: "Spiritual", 
+    image: varanasiImage,
+    category: "Spiritual",
     bestTime: "Oct-Mar",
     difficulty: "Easy"
   }
@@ -191,10 +195,10 @@ const Destinations = () => {
   const categories = ["All", "Heritage", "Adventure", "Hill Station", "Spiritual"];
 
   const filteredDestinations = allDestinations
-    .filter(dest => 
+    .filter(dest =>
       (selectedCategory === "All" || dest.category === selectedCategory) &&
-      (searchTerm === "" || dest.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-       dest.state.toLowerCase().includes(searchTerm.toLowerCase()))
+      (searchTerm === "" || dest.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        dest.state.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       if (sortBy === "price-low") return parseInt(a.price.replace(/[₹,]/g, "")) - parseInt(b.price.replace(/[₹,]/g, ""));
@@ -206,7 +210,7 @@ const Destinations = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10">
         <div className="container mx-auto px-4 text-center">
@@ -217,7 +221,7 @@ const Destinations = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-            Discover incredible destinations across India with Anshu Tours & Travels. 
+            Discover incredible destinations across India with Anshu Tours & Travels.
             From heritage monuments to adventure-filled mountains, find your perfect getaway.
           </p>
 
@@ -226,8 +230,8 @@ const Destinations = () => {
             <div className="grid md:grid-cols-4 gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search destinations..." 
+                <Input
+                  placeholder="Search destinations..."
                   className="pl-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -282,16 +286,16 @@ const Destinations = () => {
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
             {filteredDestinations.map((destination) => (
-              <Card key={destination.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+              <Card key={destination.id} className="group flex flex-col hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"> {/* Added flex flex-col here */}
                 <CardHeader className="relative p-0">
                   <div className="relative h-64 overflow-hidden">
-                    <img 
-                      src={destination.image} 
+                    <img
+                      src={destination.image}
                       alt={destination.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    
+
                     {/* Badges */}
                     <div className="absolute top-4 left-4 flex gap-2">
                       <Badge variant="secondary" className="text-xs">
@@ -322,7 +326,7 @@ const Destinations = () => {
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-6">
+                <CardContent className="p-6 flex-grow"> {/* Added flex-grow here */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 fill-current text-yellow-500" />
@@ -360,23 +364,33 @@ const Destinations = () => {
                   </div>
                 </CardContent>
 
-                <CardFooter className="p-6 pt-0">
-                  <div className="flex gap-2 w-full">
-                    <Button 
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                      onClick={() => window.open(`https://wa.me/918506940925?text=Hi, I'm interested in ${destination.name} tour package. Please share more details.`, '_blank')}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      WhatsApp
-                    </Button>
-                    <Button 
-                      variant="outline" 
+                <CardFooter className="p-6 pt-0 mt-auto"> {/* Add mt-auto here */}
+                  <div className="flex w-full items-center justify-between gap-2">
+                    <a
+                      href={`https://wa.me/918506940925?text=Hi, I'm interested in ${destination.name} tour package. Please share more details.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex-1"
-                      onClick={() => window.open('tel:+918506940925', '_self')}
                     >
-                      <Phone className="w-4 h-4 mr-2" />
-                      Call Now
-                    </Button>
+                      <Button
+                        className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        WhatsApp
+                      </Button>
+                    </a>
+                    <a
+                      href="tel:+918506940925"
+                      className="flex-1"
+                    >
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                      >
+                        <Phone className="w-4 h-4 mr-2" />
+                        Call Now
+                      </Button>
+                    </a>
                   </div>
                 </CardFooter>
               </Card>
@@ -392,8 +406,10 @@ const Destinations = () => {
           )}
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
 
-export default Destinations;  
+export default Destinations;
