@@ -68,7 +68,7 @@ ${formData.name}
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+91-8506940925", "Ranjit Kumar Ranjan"],
+      details: ["+91-8506940926", "Ranjit Kumar Ranjan"],
       description: "Available 24/7 for emergencies",
       color: "text-green-600"
     },
