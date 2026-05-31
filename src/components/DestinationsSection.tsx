@@ -200,7 +200,7 @@ const DestinationsSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" variant="outline" className="px-8">
+          <Button size="lg" variant="outline" className="px-8" onClick={() => window.location.href = '/destinations'}>
             View All Destinations
           </Button>
         </div>
